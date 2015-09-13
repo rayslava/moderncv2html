@@ -128,6 +128,13 @@ sub do_cmd_address {
     $_;
 }
 
+sub do_cmd_homepage {
+    local($_) = @_;
+    s/$next_pair_pr_rx//o;
+    ($t_homepage) = &translate_commands($&);
+    $_;
+}
+
 sub do_cmd_email {
     local($_) = @_;
     &get_next_optional_argument;
@@ -144,12 +151,30 @@ sub do_cmd_url {
     $t_url;
 }
 
+sub do_cmd_photo {
+    local($_) = @_;
+    local($size) = &get_next_optional_argument;
+    local($border) = &get_next_optional_argument;
+    &get_next_optional_argument;
+    s/$next_pair_pr_rx//o;
+    ($t_photo) = '<img height="'.$size.'" width="'.$size.'"
+border="solid" border-width="'.$border.'" padding="4px"
+src="'.$2.'">';
+    $_;
+}
+
 sub do_cmd_maketitle {
     local($_) = @_;
     &write_warnings("Hi $t_firstname.");
-
-    '<div class="head">'.$t_firstname.' '.$t_familyname.'<div class="contact">'.$t_address.'</div></div>'. $_;
-
+    local $filename = ($CURRENT_FILE);
+    $filename =~ s/.html//;
+    '<div class="head">'
+	.$t_firstname.' '.$t_familyname.
+	'<div class="photo">'.$t_photo.'</div>'.
+	'<div class="contact">'.$t_address.'</div>'.
+	'<div class="email">&#x2709;'.$t_email.'</div>'.
+	'<div class="pdf">Download <a href="'.$filename.'.pdf">PDF-version</a></div>'.
+	'</div>'.$_;
 }
 sub do_cmd_moderncvcolor {}
 sub do_cmd_moderncvstyle {}
