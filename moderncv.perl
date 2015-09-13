@@ -140,15 +140,15 @@ sub do_cmd_email {
 sub do_cmd_url {
     local($_) = @_;
     s/$next_pair_pr_rx//o;
-    ($t_url) = &translate_commands($2);
-    $_;
+    ($t_url) = &make_href("$_","$_");
+    $t_url;
 }
 
 sub do_cmd_maketitle {
     local($_) = @_;
     &write_warnings("Hi $t_firstname.");
 
-    '<div class="head">'.$t_firstname.'<div class="contact">'.$t_address.'</div></div>'. $_;
+    '<div class="head">'.$t_firstname.' '.$t_familyname.'<div class="contact">'.$t_address.'</div></div>'. $_;
 
 }
 sub do_cmd_moderncvcolor {}
