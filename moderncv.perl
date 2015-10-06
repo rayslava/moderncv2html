@@ -157,7 +157,7 @@ sub do_cmd_photo {
     local($border) = &get_next_optional_argument;
     &get_next_optional_argument;
     s/$next_pair_pr_rx//o;
-    ($t_photo) = '<img height="'.$size.'" width="'.$size.'"
+    ($t_photo) = '<img height="'.$size.'" width="auto"
 border="solid" border-width="'.$border.'" padding="4px"
 src="'.$2.'">';
     $_;
