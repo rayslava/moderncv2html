@@ -34,7 +34,7 @@ sub do_cmd_cventry{
         $return.='&#44;&nbsp';
     }
     $return .= '</span><span class="grade">'.$grade;
-    
+
     $desc = &missing_braces unless
         s/$next_pair_pr_rx/$desc=$2;''/eo;
     #if( $grade ne '') {
@@ -157,9 +157,14 @@ sub do_cmd_photo {
     local($border) = &get_next_optional_argument;
     &get_next_optional_argument;
     s/$next_pair_pr_rx//o;
-    ($t_photo) = '<img height="'.$size.'" width="auto"
-border="solid" border-width="'.$border.'" padding="4px"
-src="'.$2.'">';
+    local($photo) = $2;  # Store the photo path
+    if ($size =~ /(\d+)pt/) {
+        my $px = int($1 * 96 / 72);
+        $size = "${px}px";
+    }
+    ($t_photo) = '<img height="'.$size.'" width="auto" ' .
+        'border="solid" border-width="'.$border.'" padding="4px" ' .
+        'src="'.$photo.'">';
     $_;
 }
 
